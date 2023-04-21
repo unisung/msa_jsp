@@ -152,7 +152,7 @@
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
 
-      <Context docBase="C:\upload" path="/resources/images" reloadable="true"/><Context docBase="jsp08" path="/jsp08" reloadable="true" source="org.eclipse.jst.jee.server:jsp08"/><Context docBase="WebMarket" path="/WebMarket" reloadable="true" source="org.eclipse.jst.jee.server:WebMarket"/><Context docBase="jsp09" path="/jsp09" reloadable="true" source="org.eclipse.jst.jee.server:jsp09"/><Context docBase="jsp01" path="/jsp01" reloadable="true" source="org.eclipse.jst.jee.server:jsp01"/><Context docBase="jsp03" path="/jsp03" reloadable="true" source="org.eclipse.jst.jee.server:jsp03"/><Context docBase="jsp04" path="/jsp04" reloadable="true" source="org.eclipse.jst.jee.server:jsp04"/><Context docBase="jsp10" path="/jsp10" reloadable="true" source="org.eclipse.jst.jee.server:jsp10"/><Context docBase="jsp11" path="/jsp11" reloadable="true" source="org.eclipse.jst.jee.server:jsp11"/></Host>
+      <Context docBase="C:\upload" path="/resources/images" reloadable="true"/></Host>
     </Engine>
   </Service>
 </Server>

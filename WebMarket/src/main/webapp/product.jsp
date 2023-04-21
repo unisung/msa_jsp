@@ -3,6 +3,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="java.util.Date"%>
+<%@ page errorPage="exceptionNoProductId.jsp" %>
 <html>
 <%-- jsp:useBean id="productDAO" class="dao.ProductRepository" scope="session"/> --%>
 <%

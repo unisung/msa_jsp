@@ -13,6 +13,7 @@ public class Product implements Serializable {
 	private long unitsInStock;//재고 수
 	private String condition;//신상품 or 중고품 or 재생품
 	private String filename;//이미지파일 명
+	private int quantity;//장바구니 담은 수량
 	
 	public Product() {}
 
@@ -21,6 +22,14 @@ public class Product implements Serializable {
 		this.productId = productId;
 		this.pname = pname;
 		this.unitPrice = unitPrice;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 
 	public String getFilename() {

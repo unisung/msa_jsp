@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 		initParams = { 
 				@WebInitParam(name = "filename", value = "c:\\logs\\webmarket.log")
 		})
-public class LogFileFilter extends HttpFilter implements Filter {
+public class LogFileFilter implements Filter {
 	PrintWriter writer;
 
 	public void init(FilterConfig config) throws ServletException {

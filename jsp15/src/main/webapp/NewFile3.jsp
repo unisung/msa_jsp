@@ -15,7 +15,7 @@
 <script>
   function loginWithKakao() {
     Kakao.Auth.authorize({
-      redirectUri: 'http://localhost:8181/Kakaologin',
+      redirectUri: 'http://localhost:8181/jsp15/result.jsp'
     });
   }
 

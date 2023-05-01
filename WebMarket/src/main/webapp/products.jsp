@@ -1,4 +1,6 @@
-﻿<%@page import="dao.ProductRepository"%>
+﻿<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="dao.ProductRepository"%>
 <%@page import="dto.Product"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page contentType="text/html; charset=utf-8"%>
@@ -6,8 +8,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
-<%-- <jsp:useBean id="productDAO" class="dao.ProductRepository" scope="session"/> --%>
-<% ProductRepository productDAO = ProductRepository.getInstance(); %>
 <head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <title>Welcome</title>
@@ -21,21 +21,20 @@
 			</h1>
 		</div>
 	</div>	
-	<%
-		ArrayList<Product> listOfProducts = productDAO.getAllProducts();
-	%>
 	<div class="container">
 		<div class="row" align="center">
+		      <%@ include file="dbconn.jsp" %><!-- DB연결객체 생성  -->
               <%
-              	for(int i=0;i<listOfProducts.size();i++){
-              		Product product = listOfProducts.get(i);
+              	PreparedStatement pstmt = conn.prepareStatement("select * from product");
+                ResultSet rs = pstmt.executeQuery();
+                while(rs.next()){
                %>
                <div class="col-md-4">
-                 <img src="/resources/images/<%=product.getFilename()%>" style="width:100%">
-                 <h3><%=product.getPname() %></h3>
-                 <p><%=product.getDescription() %>
-                 <p><%=product.getUnitPrice() %>원
-                 <p><a href="./product.jsp?id=<%=product.getProductId()%>" 
+                 <img src="/resources/images/<%=rs.getString("p_fileName")%>" style="width:100%">
+                 <h3><%=rs.getString("p_name")%></h3>
+                 <p><%=rs.getString("p_description") %>
+                 <p><%=rs.getString("p_unitPrice") %>원
+                 <p><a href="./product.jsp?id=<%=rs.getString("p_id")%>" 
                                               class="btn btn-secondary" role="button">상세정보 &raquo;></a>
                </div>
                <%		

@@ -16,6 +16,7 @@
   	<web-resource-collection>
   		<web-resource-name>WebMarket Security</web-resource-name>
   		<url-pattern>/addProduct.jsp</url-pattern>
+  		<url-pattern>/editProduct.jsp</url-pattern>
   	</web-resource-collection>
   	<auth-constraint>
   		<role-name>admin</role-name>

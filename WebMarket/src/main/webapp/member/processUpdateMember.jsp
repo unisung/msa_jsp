@@ -32,8 +32,16 @@
  driver="com.mysql.cj.jdbc.Driver" user="root" password="1234"  />
                     
 <sql:update dataSource="${dataSource}" var="result" >
-  insert into member values(?,?,?,?,?,?,?,?,?)
-  <sql:param  value="<%=id %>"/>
+  update member 
+     set password=?,
+         name=?,
+         gender=?,
+         birth=?,
+         mail=?,
+         phone=?,
+         address=?,
+         regist_day=?
+   where id=?
   <sql:param  value="<%=password %>"/>
   <sql:param  value="<%=name %>"/>
   <sql:param  value="<%=gender %>"/>
@@ -42,10 +50,11 @@
   <sql:param  value="<%=phone %>"/>
   <sql:param  value="<%=address %>"/>
   <sql:param  value="<%=timestamp %>"/>
+  <sql:param  value="<%=id %>"/>
 </sql:update>
 
 <c:if test="${result>=1}">
- <c:redirect  url="resultMember.jsp?msg=1"/>
+ <c:redirect  url="resultMember.jsp?msg=0"/>
 </c:if>
 
 

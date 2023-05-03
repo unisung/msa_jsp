@@ -49,9 +49,16 @@
            <c:set var="pageNum" value="${pageNum}"/>
 		 <nav aria-label="...">
            <ul class="pagination">
+            <c:if test="${startPage==1}">
              <li class="page-item disabled">
 			      <a class="page-link">Previous</a>
 			 </li>
+			</c:if>
+            <c:if test="${startPage!=1}">
+             <li class="page-item">
+			      <a class="page-link">Previous</a>
+			 </li>
+			</c:if>
            <c:forEach var="i" begin="1" end="10" >
               <li class="page-item">
                 <c:choose>
@@ -67,11 +74,17 @@
                 </c:choose>
               </li>
            </c:forEach>
-            <li class="page-item">
-                 <c:if test="${i+1< endPage}">
-                 
+                 <c:if test="${endPage==total_page}">
+            <li class="page-item disabled">
+                 <a class="page-link" >Next</a>
+            </li>     
                  </c:if>
-			      <a class="page-link" href="<c:url value="./BoardListAction.do?pageNum=${total_page+1}&items=${items}&text=${text}"/>">Next</a>
+                 
+                 <c:if test="${endPage<total_page}">
+                 <li class="page-item">
+			      <a class="page-link" href="<c:url value="./BoardListAction.do?pageNum=${endPage+1}&items=${items}&text=${text}&startPage=${startPage}"/>">Next</a>
+			      </li>
+			      </c:if>
 			 </li>
            </ul>
            

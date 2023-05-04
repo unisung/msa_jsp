@@ -64,7 +64,7 @@ public int getListCount(String items, String text) {
 	  
 	  if(items==null && text==null)//검색버튼을 누르지 않았거나 처음에 페이지를 열때
 		  sql="select * from board order by num desc ";
-	  else//검색버튼을 눌렀을 때 혹은 검색어가 없을 때
+	  else//검색버튼을 눌렀을 때 혹은 검색어가 없을 때 
 		  sql="select * from board where "+items+" like '%"+text+"%' order by num desc ";
 	  
 	  System.out.println("검색항목:"+ items);
@@ -108,6 +108,139 @@ public int getListCount(String items, String text) {
 		 System.out.println("getBoardList()에러: "+e);  
 	  }
 	  return null;
-  }
+  }//리스트 출력
   
+  //로그인한 id로 name 추출
+  public String  getLoginNameById(String id){
+	  Connection conn=null; PreparedStatement pstmt=null; ResultSet rs=null;
+		 String sql="select name from member where id=?";
+		 System.out.println("sql:"+ sql);
+	  String name=""; 
+		  try {
+			   //db연결 
+			   conn = DBConnection.getConnection();
+			   pstmt = conn.prepareStatement(sql);
+			   pstmt.setString(1,id);
+			   
+			   rs = pstmt.executeQuery();
+			   //전체 건수
+			 while(rs.next()) {
+				 name=rs.getString(1);
+			 }
+		  }catch(Exception e) {e.printStackTrace();} 
+		  
+		return name; //db에서 추출한 name 리턴
+  }//
+ //게시글 등록 
+  public void insertBoard(BoardDTO board){
+	  Connection conn=null; PreparedStatement pstmt=null; ResultSet rs=null;
+		 String sql="insert into board(id,name,subject,content,regist_day,hit,ip) "
+		 		+ " values(?,?,?,?,?,?,?) ";
+		 System.out.println("sql:"+ sql);
+	  String name=""; 
+		  try {
+			   //db연결 
+			   conn = DBConnection.getConnection();
+			   pstmt = conn.prepareStatement(sql);
+               //파라미터값 binding
+			   int index=0;
+			   pstmt.setString(++index,board.getId());
+			   pstmt.setString(++index,board.getName());
+			   pstmt.setString(++index,board.getSubject());
+			   pstmt.setString(++index,board.getContent());
+			   pstmt.setString(++index,board.getRegist_day());
+			   pstmt.setInt(++index,board.getHit());
+			   pstmt.setString(++index,board.getIp());
+			   //db 저장
+			   pstmt.executeUpdate();
+			   
+		  }catch(Exception e) {e.printStackTrace();} 
+  }//게시글 등록
+
+public BoardDTO getBoardByNum(int num) {
+	  //조회수 증가
+	   updateBoardHit(num);
+	   
+	Connection conn=null; PreparedStatement pstmt=null; ResultSet rs=null;
+	 String sql="select * from board where num=?";
+    System.out.println("sql:"+ sql);
+    BoardDTO board=null;
+    
+	  try {
+		   //db연결 
+		   conn = DBConnection.getConnection();
+		   pstmt = conn.prepareStatement(sql);
+		   pstmt.setInt(1,num);
+		   
+		   rs = pstmt.executeQuery();
+		  //board 정보 생성
+		 while(rs.next()) {
+			 board = new BoardDTO();
+			 board.setNum(num);//넘어온 파라미터로 설정
+			 board.setId(rs.getString("id"));
+			 board.setName(rs.getString("name"));
+			 board.setSubject(rs.getString("subject"));
+			 board.setContent(rs.getString("content"));
+			 board.setHit(rs.getInt("hit"));
+			 board.setRegist_day(rs.getString("regist_day"));
+			 board.setIp(rs.getString("ip"));
+		 }
+	  }catch(Exception e) {e.printStackTrace();} 
+
+	return board;//BoardDTO객체 리턴
+}
+ //게시글 조회수 증가
+public void updateBoardHit(int num){
+	  Connection conn=null; PreparedStatement pstmt=null; ResultSet rs=null;
+		 String sql="update board set hit = hit+1 where num=?";
+		 System.out.println("sql:"+ sql);
+		  try {
+			   //db연결 
+			   conn = DBConnection.getConnection();
+			   pstmt = conn.prepareStatement(sql);
+			   pstmt.setInt(1,num);
+			   //db 저장
+			   pstmt.executeUpdate();
+		  }catch(Exception e) {e.printStackTrace();} 
+}//조회수 증가
+
+public void updateBoard(BoardDTO board) {
+	  Connection conn=null; PreparedStatement pstmt=null; ResultSet rs=null;
+		 String sql="update board"
+		 		+ "     set subject=?,"
+		 		+ "         content=? "
+		 		+ "   where num=?";
+		 System.out.println("sql:"+ sql);
+		  try {
+			   //db연결 
+			   conn = DBConnection.getConnection();
+			   pstmt = conn.prepareStatement(sql);
+             //파라미터값 binding
+			   int index=0;
+			   
+			   pstmt.setString(++index,board.getSubject());
+			   pstmt.setString(++index,board.getContent());
+			   pstmt.setInt(++index,board.getNum());
+			   //db 저장
+			   pstmt.executeUpdate();
+			   
+		  }catch(Exception e) {e.printStackTrace();} 
+}
+//게시글 삭제 처리
+public void deleteBoard(int num) {
+	Connection conn=null; PreparedStatement pstmt=null; ResultSet rs=null;
+	 String sql="delete from board where num=?";
+	 System.out.println("sql:"+ sql);
+	  try {
+		   //db연결 
+		   conn = DBConnection.getConnection();
+		   pstmt = conn.prepareStatement(sql);
+           //파라미터값 binding
+		   pstmt.setInt(1,num);
+		   //db 저장
+		   pstmt.executeUpdate();
+		   
+	  }catch(Exception e) {e.printStackTrace();} 
+}//삭제 처리
+
 }

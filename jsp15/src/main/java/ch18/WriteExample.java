@@ -3,7 +3,7 @@ package ch18;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
-public class WriteExample {
+public class WriteExample implements AA {
 	public static void main(String[] args) {
 		try {
 			//byte단위 출력 객체 생성

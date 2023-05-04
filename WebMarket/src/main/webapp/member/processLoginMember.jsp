@@ -7,6 +7,7 @@
     
     String id = request.getParameter("id");
     String password=request.getParameter("password");
+    request.setAttribute("location", request.getParameter("location"));
 %>
 <!-- DB연결객체 생성 -->
 <sql:setDataSource var="dataSource" url="jdbc:mysql://localhost:3306/webmarketdb"
@@ -22,7 +23,13 @@
   <%
   	 session.setAttribute("sessionId", id);
   %>
+ <% System.out.println(request.getParameter("location")); %>
+    <c:if test="${not empty location}">
+  <c:redirect url="/BoardWriteForm.do"/>
+  </c:if>
+  <c:if test="${empty location }">
   <c:redirect url="resultMember.jsp?msg=2"/>
+  </c:if>
 </c:forEach>
 <!-- id나 비번이 틀린경우 다시 로그인 페이지로이동 error코드를 1로 가져감 -->
 <c:redirect url="loginMember.jsp?error=1"/> 

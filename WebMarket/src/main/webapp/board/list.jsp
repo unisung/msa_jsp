@@ -11,6 +11,17 @@
 <head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <title>게시판</title>
+<script>
+function checkForm(){
+	if(${sessionId==null}){
+		alert("로그인 해주세요.");
+		location.href="./member/loginMember.jsp?location=/BoardWriteForm.do";
+		return false;
+	}
+	/* GET방식 */
+	location.href ="./BoardWriteForm.do?id=${sessionId}";
+}
+</script>
 </head>
 <body>
 	<%@ include file="/menu.jsp"%>
@@ -49,43 +60,18 @@
            <c:set var="pageNum" value="${pageNum}"/>
 		 <nav aria-label="...">
            <ul class="pagination">
-            <c:if test="${startPage==1}">
-             <li class="page-item disabled">
-			      <a class="page-link">Previous</a>
+             <li class="page-item  <c:if test="${startPage==1}">disabled</c:if> ">
+			      <a class="page-link" href="<c:url value="./BoardListAction.do?pageNum=${startPage-limit}&items=${items}&text=${text}"/>">Previous</a>
 			 </li>
-			</c:if>
-            <c:if test="${startPage!=1}">
-             <li class="page-item">
-			      <a class="page-link">Previous</a>
-			 </li>
-			</c:if>
-           <c:forEach var="i" begin="1" end="10" >
-              <li class="page-item">
-                <c:choose>
-                  <c:when test="${pageNum==i}">
-                    <li class="page-item active" aria-current="page">
-                    <a class="page-link" href="<c:url value="./BoardListAction.do?pageNum=${i}&items=${items}&text=${text}"/>">${i}
-                    </a>
-                  </c:when>
-                  <c:otherwise>
+           <c:forEach var="i" begin="${startPage}" end="${endPage}" >
+              <li class="page-item <c:if test="${i > total_page}"> disabled</c:if> <c:if test="${pageNum==i}"> active </c:if> " aria-current="page">
                      <a class="page-link" href="<c:url value="./BoardListAction.do?pageNum=${i}&items=${items}&text=${text}"/>">${i}
                     </a>
-                  </c:otherwise>
-                </c:choose>
               </li>
            </c:forEach>
-                 <c:if test="${endPage==total_page}">
-            <li class="page-item disabled">
-                 <a class="page-link" >Next</a>
-            </li>     
-                 </c:if>
-                 
-                 <c:if test="${endPage<total_page}">
-                 <li class="page-item">
-			      <a class="page-link" href="<c:url value="./BoardListAction.do?pageNum=${endPage+1}&items=${items}&text=${text}&startPage=${startPage}"/>">Next</a>
-			      </li>
-			      </c:if>
-			 </li>
+           <li class="page-item  <c:if test="${endPage >total_page }"> disabled</c:if>" >
+			  <a class="page-link" href="<c:url value="./BoardListAction.do?pageNum=${endPage+1}&items=${items}&text=${text}&startPage=${startPage}"/>">Next</a>
+		   </li>
            </ul>
            
            </nav>
@@ -108,7 +94,6 @@
               </tr>
             </table>
          </div>
-         
       </form>
 		<hr>
 	</div>	

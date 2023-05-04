@@ -3,6 +3,7 @@
 <head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <title>로그인</title>
+<%=request.getParameter("location") %>
 </head>
 <body>
 	<%@ include file="/menu.jsp"%>
@@ -25,6 +26,7 @@
 		<form name="loginForm" action="processLoginMember.jsp" method = "post" class="form-signin">
            <div class="form-group">
              <label for="inputUserName" class="sr-only">User Name</label>
+               <input type="hidden" name="location" value="<%=request.getParameter("location") %>" >
                <input name="id" id="inputUserName" class="from-control"
                           placeholder="ID" required autofocus>
            </div>
